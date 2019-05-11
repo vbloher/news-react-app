@@ -14,10 +14,6 @@ class HomeScreen extends React.Component {
     static navigationOptions = { header: null };
 
     async componentDidMount() {
-        await this.update();
-    };
-
-    update = async () => {
         this.setState({
             isLoading: true,
         });
@@ -27,6 +23,19 @@ class HomeScreen extends React.Component {
         if (articles.length === 0) {
             articles = await downloadArticles();
         }
+
+        this.setState({
+            isLoading: false,
+            articles,
+        })
+    };
+
+    update = async () => {
+        this.setState({
+            isLoading: true,
+        });
+
+        const articles = await downloadArticles();
 
         this.setState({
             isLoading: false,

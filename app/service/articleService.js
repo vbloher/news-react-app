@@ -25,7 +25,7 @@ export const readArticles = async () => {
 
 export const downloadArticles = async () => {
     try {
-        const response = await fetch(`https://newsapi.org/v2/everything?q=bitcoin&pageSize=50&apiKey=${ API_KEY }`);
+        const response = await fetch(`https://newsapi.org/v2/everything?q=bitcoin&pageSize=10&apiKey=${ API_KEY }`);
         const responseJson = await response.json();
 
         const articles = responseJson.articles

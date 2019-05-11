@@ -1,4 +1,4 @@
-import AsyncStorage from '@react-native-community/async-storage';
+import { AsyncStorage } from 'react-native';
 import { API_KEY, ARTICLES_STORAGE_KEY } from '../config/constants';
 
 export const saveArticles = async (articles) => {
@@ -25,10 +25,10 @@ export const readArticles = async () => {
 
 export const downloadArticles = async () => {
     try {
-        const result = await fetch(`https://newsapi.org/v2/everything?q=bitcoin&pageSize=100&apiKey=${ API_KEY }`);
-        const rawArticles = result.json().articles;
+        const response = await fetch(`https://newsapi.org/v2/everything?q=bitcoin&pageSize=50&apiKey=${ API_KEY }`);
+        const responseJson = await response.json();
 
-        const articles = rawArticles
+        const articles = responseJson.articles
             .map(article => ({
                 img: article.urlToImage,
                 title: article.title,

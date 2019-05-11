@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, Linking } from 'react-native';
-import { Button, Tile, Icon } from 'react-native-elements';
-import { getDateString } from './utils';
+import { Button, Tile, Icon } from 'react-native-elements/src/index';
+import { getDateString } from '../utils';
 
 class ArticlePreviewScreen extends React.Component {
     onOpenUrl = (url) => {

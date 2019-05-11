@@ -1,7 +1,7 @@
 import React from "react";
 import { createStackNavigator, HeaderBackButton } from 'react-navigation';
-import HomeScreen from '../HomeScreen';
-import ArticlePreviewScreen from '../ArticlePreviewScreen';
+import HomeScreen from '../screen/HomeScreen';
+import ArticlePreviewScreen from '../screen/ArticlePreviewScreen';
 
 const AppStackNavigator = createStackNavigator(
     {

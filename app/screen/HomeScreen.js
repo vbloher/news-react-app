@@ -1,9 +1,9 @@
 import React from 'react';
-import { ScrollView, Text, View } from 'react-native';
-import { API_KEY } from './config/constants';
-import AppHeader from './AppHeader';
-import { ListItem } from 'react-native-elements';
-import { getDateString } from './utils';
+import { ScrollView, ActivityIndicator, View } from 'react-native';
+import { API_KEY } from '../config/constants';
+import AppHeader from '../components/AppHeader';
+import { ListItem } from 'react-native-elements/src/index';
+import { getDateString } from '../utils';
 
 class HomeScreen extends React.Component {
     state = {
@@ -69,9 +69,9 @@ class HomeScreen extends React.Component {
                 />
 
                 { isLoading ? (
-                    <Text>
-                        Loading...
-                    </Text>
+                    <ActivityIndicator
+                        size="large"
+                    />
                 ) : (
                     <ScrollView>
                         <View>

@@ -1,5 +1,5 @@
 {
-  "main": "node_modules/expo/AppEntry.js",
+  "main": "./index.js",
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
@@ -9,7 +9,11 @@
   "dependencies": {
     "expo": "^32.0.0",
     "react": "16.5.0",
-    "react-native": "https://github.com/expo/react-native/archive/sdk-32.0.0.tar.gz"
+    "react-native": "https://github.com/expo/react-native/archive/sdk-32.0.0.tar.gz",
+    "react-native-elements": "1.1.0",
+    "react-native-vector-icons": "6.4.2",
+    "react-navigation": "3.9.1",
+    "moment": "2.24.0"
   },
   "devDependencies": {
     "babel-preset-expo": "^5.0.0"

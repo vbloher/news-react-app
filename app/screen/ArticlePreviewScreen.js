@@ -24,6 +24,7 @@ class ArticlePreviewScreen extends React.Component {
                     imageSrc={ { uri: article.img } }
                     title={ article.title }
                     caption={ getDateString(article.date) }
+                    onPress={ () => this.onOpenUrl(article.url) }
                     featured
                 />
                 <Text style={ styles.description }>

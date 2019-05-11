@@ -1,9 +1,9 @@
 import React from 'react';
 import { ScrollView, ActivityIndicator, View } from 'react-native';
-import { API_KEY } from '../config/constants';
 import AppHeader from '../components/AppHeader';
 import { ListItem } from 'react-native-elements';
 import { getDateString } from '../utils';
+import { downloadArticles, readArticles } from '../service/articleService';
 
 class HomeScreen extends React.Component {
     state = {
@@ -13,35 +13,25 @@ class HomeScreen extends React.Component {
 
     static navigationOptions = { header: null };
 
-    componentDidMount() {
-        this.update();
+    async componentDidMount() {
+        await this.update();
     };
 
-    update = () => {
+    update = async () => {
         this.setState({
             isLoading: true,
         });
 
-        fetch(`https://newsapi.org/v2/everything?q=bitcoin&language=ru&pageSize=50&apiKey=${ API_KEY }`)
-            .then(res => res.json())
-            .then(json => {
-                const articles = json.articles
-                    .map(article => ({
-                        img: article.urlToImage,
-                        title: article.title,
-                        date: article.publishedAt,
-                        description: article.description,
-                        url: article.url,
-                    }));
+        let articles = await readArticles();
 
-                this.setState({
-                    isLoading: false,
-                    articles,
-                })
-            })
-            .catch((e) => {
-                console.log('Cannot get articles from web.', e);
-            })
+        if (articles.length === 0) {
+            articles = await downloadArticles();
+        }
+
+        this.setState({
+            isLoading: false,
+            articles,
+        })
     };
 
     render() {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Header, Icon } from 'react-native-elements/src/index';
+import { Header, Icon } from 'react-native-elements';
 
 class RefreshButton extends React.Component {
     render() {

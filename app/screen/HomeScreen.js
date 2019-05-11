@@ -2,7 +2,7 @@ import React from 'react';
 import { ScrollView, ActivityIndicator, View } from 'react-native';
 import { API_KEY } from '../config/constants';
 import AppHeader from '../components/AppHeader';
-import { ListItem } from 'react-native-elements/src/index';
+import { ListItem } from 'react-native-elements';
 import { getDateString } from '../utils';
 
 class HomeScreen extends React.Component {

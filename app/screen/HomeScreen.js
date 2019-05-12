@@ -1,9 +1,9 @@
 import React from 'react';
-import { ScrollView, ActivityIndicator, View } from 'react-native';
+import { ScrollView, ActivityIndicator, View, FlatList } from 'react-native';
 import AppHeader from '../components/AppHeader';
-import { ListItem } from 'react-native-elements';
 import { getDateString } from '../utils';
 import { downloadArticles, readArticles } from '../service/articleService';
+import { ListItem } from '../components/ListItem';
 
 class HomeScreen extends React.Component {
     state = {
@@ -43,23 +43,23 @@ class HomeScreen extends React.Component {
         })
     };
 
-    render() {
-        const { navigation } = this.props;
-        const { isLoading, articles } = this.state;
+    renderItem = ({ item }) => (
+        <ListItem
+            img={ item.img }
+            title={ item.title }
+            date={ getDateString(item.date) }
+            onPress={ () => {
+                this.props.navigation.navigate('ArticlePreview', {
+                    article: item,
+                });
+            } }
+        />
+    );
 
-        const articleItems = articles.map((article, index) => (
-            <ListItem
-                key={ index }
-                title={ article.title }
-                subtitle={ getDateString(article.date) }
-                leftAvatar={ { source: { uri: article.img } } }
-                onPress={() => {
-                    navigation.navigate('ArticlePreview', {
-                        article: article,
-                    });
-                }}
-            />
-        ));
+    keyExtractor = (article) => article.url;
+
+    render() {
+        const { isLoading, articles } = this.state;
 
         return (
             <View>
@@ -73,9 +73,13 @@ class HomeScreen extends React.Component {
                     />
                 ) : (
                     <ScrollView>
-                        <View>
-                            { articleItems }
-                        </View>
+                        <FlatList
+                            data={ articles }
+                            renderItem={ this.renderItem }
+                            keyExtractor={ this.keyExtractor }
+                            initialNumToRender={ 10 }
+                            maxToRenderPerBatch={ 10 }
+                        />
                     </ScrollView>
                 ) }
             </View>

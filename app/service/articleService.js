@@ -1,5 +1,6 @@
 import { AsyncStorage } from 'react-native';
 import { API_KEY, ARTICLES_STORAGE_KEY } from '../config/constants';
+import { clearImagesDir, downloadFile } from '../utils';
 
 export const saveArticles = async (articles) => {
     try {
@@ -18,28 +19,34 @@ export const readArticles = async () => {
         } else {
             return [];
         }
-    } catch(e) {
+    } catch (e) {
         console.log('Cannot read the articles.', e);
+        return [];
     }
 };
 
 export const downloadArticles = async () => {
     try {
-        const response = await fetch(`https://newsapi.org/v2/everything?q=bitcoin&pageSize=10&apiKey=${ API_KEY }`);
-        const responseJson = await response.json();
+        const response = await fetch(`https://newsapi.org/v2/everything?q=bitcoin&pageSize=30&apiKey=${ API_KEY }`);
+        const { articles } = await response.json();
 
-        const articles = responseJson.articles
-            .map(article => ({
-                img: article.urlToImage,
+        await clearImagesDir();
+        const imagesPromises = articles.map(article => downloadFile(article.urlToImage, article.urlToImage));
+        const images = await Promise.all(imagesPromises);
+
+        const result = articles
+            .map((article, index) => ({
+                img: images[index],
+                imgUrl: article.urlToImage,
                 title: article.title,
                 date: article.publishedAt,
                 description: article.description,
                 url: article.url,
             }));
 
-        saveArticles(articles);
+        saveArticles(result);
 
-        return articles;
+        return result;
     } catch (e) {
         console.log('Cannot get articles from web.', e);
     }

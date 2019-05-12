@@ -20,7 +20,7 @@ class HomeScreen extends React.Component {
 
         let articles = await readArticles();
 
-        if (articles.length === 0) {
+        if (articles && articles.length === 0) {
             articles = await downloadArticles();
         }
 

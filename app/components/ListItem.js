@@ -22,7 +22,6 @@ export const ListItem = ({ img, title, date, onPress }) => (
 
 const styles = StyleSheet.create({
     itemContainer: {
-        display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
         padding: 15,
@@ -33,6 +32,7 @@ const styles = StyleSheet.create({
     },
     contentContainer: {
         paddingLeft: 15,
+        marginRight: 50,
     },
     title: {
         fontSize: 16,

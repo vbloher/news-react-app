@@ -14,19 +14,46 @@ export const clearImagesDir = async () => {
 };
 
 export const downloadFile = async (url, fileName) => {
-    const destinationUri = mgDirUri + fileName;
 
-    const mgDirInfo = await FileSystem.getInfoAsync(mgDirUri);
-    if (!mgDirInfo.exists) {
-        await FileSystem.makeDirectoryAsync(mgDirUri);
+    if (!url) {
+        return null;
     }
+
+    // const destinationUri = mgDirUri + fileName;
+    const destinationUri = FileSystem.documentDirectory + fileName;
+
+    // const mgDirInfo = await FileSystem.getInfoAsync(mgDirUri);
+    // if (!mgDirInfo.exists) {
+    //     try {
+    //         await FileSystem.makeDirectoryAsync(mgDirUri);
+    //     } catch (e) {
+    //         console.log('Cannot create directory. ', e);
+    //     }
+    // }
 
     let resultUri = null;
     try {
         resultUri = await FileSystem.downloadAsync(url, destinationUri)
     } catch (e) {
-        console.log('Cannot download file.', e)
+        console.log('Cannot download file.', e);
     }
 
-    return resultUri;
+    return resultUri ? resultUri.uri : null;
+};
+
+export const checksum = (string) => {
+    const length = string ? string.length : 0;
+    let hash = 0;
+    let c;
+
+    if (length === 0) {
+        return hash;
+    }
+
+    for (let index = 0; index < length; index++) {
+        c = string.charCodeAt(index);
+        hash = ((hash << 5) - hash) +c;
+        hash = hash & hash;
+    }
+    return hash;
 };

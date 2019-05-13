@@ -1,12 +1,14 @@
 import React from 'react';
 import { TouchableOpacity, StyleSheet, View, Image, Text } from 'react-native';
 
+const mnLogo = require('./img/mn.png');
+
 export const ListItem = ({ img, title, date, onPress }) => (
     <TouchableOpacity onPress={ onPress }>
         <View style={ styles.itemContainer }>
             <Image
                 style={ styles.image }
-                source={ { uri: img } }
+                source={ img ? { uri: img } : mnLogo }
             />
             <View style={ styles.contentContainer }>
                 <Text style={ styles.title }>

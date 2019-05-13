@@ -3,6 +3,8 @@ import { View, Text, StyleSheet, Linking, ScrollView, Dimensions } from 'react-n
 import { Button, Tile, Icon } from 'react-native-elements/src/index';
 import { getDateString } from '../utils';
 
+const mnLogo = require('../components/img/mn.png');
+
 class ArticlePreviewScreen extends React.Component {
     state = {
         width: '100%',
@@ -47,7 +49,7 @@ class ArticlePreviewScreen extends React.Component {
             >
                 <View>
                     <Tile
-                        imageSrc={ { uri: article.img } }
+                        imageSrc={ article.img ? { uri: article.img } : mnLogo }
                         title={ article.title }
                         caption={ getDateString(article.date) }
                         onPress={ () => this.onOpenUrl(article.url) }

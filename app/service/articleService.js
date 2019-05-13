@@ -1,6 +1,6 @@
 import { AsyncStorage } from 'react-native';
 import { API_KEY, ARTICLES_STORAGE_KEY } from '../config/constants';
-import { clearImagesDir, downloadFile } from '../utils';
+import { checksum, clearImagesDir, downloadFile } from '../utils';
 
 export const saveArticles = async (articles) => {
     try {
@@ -27,11 +27,16 @@ export const readArticles = async () => {
 
 export const downloadArticles = async () => {
     try {
-        const response = await fetch(`https://newsapi.org/v2/everything?q=bitcoin&pageSize=30&apiKey=${ API_KEY }`);
+        const response = await fetch(`https://newsapi.org/v2/everything?q=bitcoin&pageSize=40&apiKey=${ API_KEY }`);
         const { articles } = await response.json();
 
         await clearImagesDir();
-        const imagesPromises = articles.map(article => downloadFile(article.urlToImage, article.urlToImage));
+        const imagesPromises = articles.map(article =>
+            downloadFile(
+                article.urlToImage,
+                checksum(article.urlToImage).toString()
+            )
+        );
         const images = await Promise.all(imagesPromises);
 
         const result = articles

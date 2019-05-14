@@ -1,6 +1,5 @@
 import React from 'react';
-import { ScrollView, ActivityIndicator, View, FlatList } from 'react-native';
-import AppHeader from '../components/AppHeader';
+import { ScrollView, View, FlatList, RefreshControl } from 'react-native';
 import { getDateString } from '../utils';
 import { downloadArticles, readArticles } from '../service/articleService';
 import { ListItem } from '../components/ListItem';
@@ -11,7 +10,9 @@ class HomeScreen extends React.Component {
         articles: [],
     };
 
-    static navigationOptions = { header: null };
+    static navigationOptions = {
+        title: 'Mega News',
+    };
 
     async componentDidMount() {
         this.setState({
@@ -63,25 +64,22 @@ class HomeScreen extends React.Component {
 
         return (
             <View>
-                <AppHeader
-                    onUpdate={ this.update }
-                />
-
-                { isLoading ? (
-                    <ActivityIndicator
-                        size="large"
-                    />
-                ) : (
-                    <ScrollView>
-                        <FlatList
-                            data={ articles }
-                            renderItem={ this.renderItem }
-                            keyExtractor={ this.keyExtractor }
-                            initialNumToRender={ 10 }
-                            maxToRenderPerBatch={ 10 }
+                <ScrollView
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={ isLoading }
+                            onRefresh={ this.update }
                         />
-                    </ScrollView>
-                ) }
+                    }
+                >
+                    <FlatList
+                        data={ articles }
+                        renderItem={ this.renderItem }
+                        keyExtractor={ this.keyExtractor }
+                        initialNumToRender={ 10 }
+                        maxToRenderPerBatch={ 10 }
+                    />
+                </ScrollView>
             </View>
         );
     }

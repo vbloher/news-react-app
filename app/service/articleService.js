@@ -34,7 +34,7 @@ export const downloadArticles = async () => {
         const imagesPromises = articles.map(article =>
             downloadFile(
                 article.urlToImage,
-                checksum(article.urlToImage).toString()
+                checksum(article.urlToImage).toString() + '.jpg'
             )
         );
         const images = await Promise.all(imagesPromises);
